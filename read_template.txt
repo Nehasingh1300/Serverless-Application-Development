@@ -1,0 +1,38 @@
+const AWS = require('aws-sdk'),
+s3 = new AWS.S3();
+
+exports.handler = (event, context, callback) => {
+	let response = {
+    	status: 'Request recieved. Sending the message.'
+	};
+	callback(null, response);
+
+    
+    console.log(event);
+    getFinalTemplate(event);
+};
+
+function readFileContent(event, templateToReturn) {
+	console.log(templateToReturn);
+    
+}
+
+function getFinalTemplate(event) {
+
+	let organization_id  = event['organization_id'];
+	let template_name  = event['template'];
+	let template_type = "email"
+	let key = `${organization_id}/${template_type}/${template_name.toLowerCase()}`;
+	console.log("----",key);
+	var params = {
+    	Bucket: `workshop-serverless-development-neha`,
+    	Key: key,
+	};
+
+	s3.getObject(params, function (err, data) {
+    	if (!err)
+        	readFileContent(event, data.Body.toString());
+    	else
+        	console.log("Error ---",err);
+    	});
+}
