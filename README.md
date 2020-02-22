@@ -17,13 +17,13 @@ Pay for what you use, that point of time when the user ping for information then
 **DataBase** : DbaaS DynamoDB<br>
 <br><br>
 
-##Learn About
+## Learn About
 Microsevices<br>
 Serverless<br>
 Rest API<br>
 
 <br><br>
-1. Code
-<br>2.API Gateway
-<br>3. Deploy
+1. Code<br>
+2.API Gateway<br>
+3. Deploy
 
