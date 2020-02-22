@@ -1,0 +1,33 @@
+import json
+import boto3
+from boto3 import client as boto3_client
+dynamodb = boto3.resource('dynamodb')
+
+def invoke_lambda(lambda_name, payload):
+	response = lambda_client.invoke(FunctionName=lambda_name, InvocationType='Event',
+                                	Payload=json.dumps(payload))
+
+	string_response = response["Payload"].read().decode('utf-8')
+	print("Lambda invocation message: ", string_response)
+
+
+def lambda_handler(event, context):
+    print(event)
+
+    table = dynamodb.Table('workshopData')
+    response  = table.put_item(Item=event)
+    
+    data_to_send = {
+        "form_data" : event.get("form_data,{}"),
+        "organisation" :event.get("organisation_id", 1),
+        "reciever" : event.get("host_email_id"),
+        "template" : event.get("template")
+    }
+
+    print(data_to_send)
+
+    return {
+        'statusCode': 200,
+        'body': json.dumps('Hello from Lambda!')
+    }
+
